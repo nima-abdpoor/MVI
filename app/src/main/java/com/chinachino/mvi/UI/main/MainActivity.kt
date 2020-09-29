@@ -1,7 +1,8 @@
-package com.chinachino.mvi
+package com.chinachino.mvi.UI.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.chinachino.mvi.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -11,7 +12,7 @@ class MainActivity : AppCompatActivity() {
     }
     private fun showMainFragment(){
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container,MainFragment(),"MainFragment")
+            .replace(R.id.fragment_container, MainFragment(),"MainFragment")
             .commit()
     }
 }

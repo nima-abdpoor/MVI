@@ -1,8 +1,9 @@
-package com.chinachino.mvi
+package com.chinachino.mvi.UI.main
 
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import com.chinachino.mvi.R
 
 class MainFragment : Fragment(){
 
