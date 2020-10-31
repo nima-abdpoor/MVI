@@ -1,5 +1,6 @@
 package com.chinachino.mvi.api
 
+import com.chinachino.mvi.utils.LiveDataCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -10,6 +11,7 @@ object RetrofitBuilder{
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
     }
     val apiService : APIService by lazy {
         retrofitBuilder.build()
