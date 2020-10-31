@@ -9,6 +9,7 @@ import com.chinachino.mvi.UI.main.state.MainStateEvent.*
 import com.chinachino.mvi.UI.main.state.MainViewState
 import com.chinachino.mvi.model.BlogPost
 import com.chinachino.mvi.model.User
+import com.chinachino.mvi.repository.main.MainRepository
 import com.chinachino.mvi.utils.AbsentLiveData
 
 class MainViewModel : ViewModel() {
@@ -30,10 +31,10 @@ class MainViewModel : ViewModel() {
     private fun handleStateEvent(_stateEvent: MainStateEvent?): LiveData<MainViewState> {
         return when (_stateEvent) {
             is GetBlogPostsEvent -> {
-                AbsentLiveData.create()
+                MainRepository.getBlogPosts()
             }
             is GetUserEvent -> {
-                AbsentLiveData.create()
+                MainRepository.getUser(_stateEvent.userId)
             }
             is None -> {
                 AbsentLiveData.create()
