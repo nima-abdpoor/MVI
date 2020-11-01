@@ -11,6 +11,7 @@ import com.chinachino.mvi.model.BlogPost
 import com.chinachino.mvi.model.User
 import com.chinachino.mvi.repository.main.MainRepository
 import com.chinachino.mvi.utils.AbsentLiveData
+import com.chinachino.mvi.utils.DataState
 
 class MainViewModel : ViewModel() {
 
@@ -20,7 +21,7 @@ class MainViewModel : ViewModel() {
     val viewState: LiveData<MainViewState>
         get() = _viewSate
 
-    val dataState: LiveData<MainViewState> = Transformations
+    val dataState: LiveData<DataState<MainViewState>> = Transformations
         .switchMap(_stateEvent) { _stateEvent ->
             _stateEvent?.let {
                 handleStateEvent(_stateEvent)
@@ -28,7 +29,7 @@ class MainViewModel : ViewModel() {
 
         }
 
-    private fun handleStateEvent(_stateEvent: MainStateEvent?): LiveData<MainViewState> {
+    private fun handleStateEvent(_stateEvent: MainStateEvent?): LiveData<DataState<MainViewState>> {
         return when (_stateEvent) {
             is GetBlogPostsEvent -> {
                 MainRepository.getBlogPosts()
@@ -56,11 +57,10 @@ class MainViewModel : ViewModel() {
         _viewSate.value = update
     }
 
-    fun getCurrentViewState() : MainViewState{
-        var value  = _viewSate.value?.let {
+    private fun getCurrentViewState() : MainViewState{
+        return _viewSate.value?.let {
             it
         }?:MainViewState()
-        return value
     }
     fun setStateEvent(state  :MainStateEvent){
         _stateEvent.value = state

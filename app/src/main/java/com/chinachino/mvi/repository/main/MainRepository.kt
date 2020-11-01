@@ -7,24 +7,23 @@ import com.chinachino.mvi.api.RetrofitBuilder
 import com.chinachino.mvi.utils.ApiEmptyResponse
 import com.chinachino.mvi.utils.ApiErrorResponse
 import com.chinachino.mvi.utils.ApiSuccessResponse
-import com.chinachino.mvi.utils.GenericApiResponse
+import com.chinachino.mvi.utils.DataState
 
 object MainRepository{
-    fun getBlogPosts() : LiveData<MainViewState>{
+    fun getBlogPosts() : LiveData<DataState<MainViewState>>{
         return Transformations.switchMap(RetrofitBuilder.apiService.getBlogPosts()){response ->
-            object : LiveData<MainViewState>() {
+            object : LiveData<DataState<MainViewState>>(){
                 override fun onActive() {
                     super.onActive()
-                    when(response){
-
+                    value = when(response){
                         is ApiSuccessResponse ->{
-                            value = MainViewState(blogPosts = response.body)
+                            DataState.data(null,MainViewState(blogPosts = response.body))
                         }
                         is ApiEmptyResponse ->{
-                            value = MainViewState()
+                            DataState.error("Data is Empty 204 response code!")
                         }
-                        is ApiEmptyResponse ->{
-                            value = MainViewState()
+                        is ApiErrorResponse ->{
+                            DataState.error(response.errorMessage)
                         }
                     }
                 }
@@ -32,20 +31,20 @@ object MainRepository{
         }
     }
 
-    fun getUser(userId : String) : LiveData<MainViewState>{
+    fun getUser(userId : String) : LiveData<DataState<MainViewState>>{
         return Transformations.switchMap(RetrofitBuilder.apiService.getUser(userId)){response ->
-            object  : LiveData<MainViewState>(){
+            object  : LiveData<DataState<MainViewState>>(){
                 override fun onActive() {
                     super.onActive()
-                    when(response){
+                    value = when(response){
                         is ApiSuccessResponse ->{
-                            value = MainViewState(user = response.body)
+                            DataState.data(null,MainViewState(user = response.body))
                         }
                         is ApiEmptyResponse ->{
-                            value = MainViewState()
+                            DataState.error("Data is Empty 204 response code!")
                         }
                         is ApiErrorResponse ->{
-                            value = MainViewState()
+                            DataState.error(response.errorMessage)
                         }
                     }
                 }

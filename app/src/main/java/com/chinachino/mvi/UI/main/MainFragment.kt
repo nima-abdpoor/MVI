@@ -7,6 +7,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.chinachino.mvi.R
 import com.chinachino.mvi.UI.main.state.MainStateEvent
+import com.chinachino.mvi.UI.main.state.MainViewState
+import com.chinachino.mvi.utils.DataState
 
 class MainFragment : Fragment(){
     lateinit var viewModel: MainViewModel
@@ -31,15 +33,17 @@ class MainFragment : Fragment(){
     }
 
     private fun subscribeObservers() {
+
         viewModel.dataState.observe(viewLifecycleOwner, Observer {dataState ->
 
-            println("debug :: dataState ---> $dataState")
-            dataState.blogPosts?.let {
-                viewModel.setBlogPostData(it)
-            }
-            dataState.user?.let {
-                viewModel.setUserData(it)
-            }
+            //handle data
+            handleData(dataState)
+
+            //handle error
+            handleError(dataState)
+
+            //handle loading
+            handleLoading(dataState)
         })
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer {viewState->
@@ -50,6 +54,25 @@ class MainFragment : Fragment(){
                 println("debug :: User ---> $it")
             }
         })
+    }
+
+    private fun handleLoading(dataState: DataState<MainViewState>) {
+        TODO("Not yet implemented")
+    }
+
+    private fun handleError(dataState: DataState<MainViewState>) {
+        TODO("Not yet implemented")
+    }
+
+    private fun handleData(dataState: DataState<MainViewState>) {
+        dataState.data?.let {mainViewState ->
+            mainViewState.user?.let {
+                viewModel.setUserData(it)
+            }
+            mainViewState.blogPosts?.let {
+                viewModel.setBlogPostData(it)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
