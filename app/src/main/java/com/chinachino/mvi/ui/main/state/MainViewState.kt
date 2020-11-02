@@ -1,4 +1,4 @@
-package com.chinachino.mvi.UI.main.state
+package com.chinachino.mvi.ui.main.state
 
 import com.chinachino.mvi.model.BlogPost
 import com.chinachino.mvi.model.User

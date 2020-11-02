@@ -1,17 +1,21 @@
-package com.chinachino.mvi.UI.main
+package com.chinachino.mvi.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.chinachino.mvi.R
-import com.chinachino.mvi.UI.main.state.MainStateEvent
-import com.chinachino.mvi.UI.main.state.MainViewState
+import com.chinachino.mvi.ui.DataStateListener
+import com.chinachino.mvi.ui.main.state.MainStateEvent
+import com.chinachino.mvi.ui.main.state.MainViewState
 import com.chinachino.mvi.utils.DataState
+import java.lang.ClassCastException
 
 class MainFragment : Fragment(){
     lateinit var viewModel: MainViewModel
+    lateinit var dataStateListener: DataStateListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,15 +39,13 @@ class MainFragment : Fragment(){
     private fun subscribeObservers() {
 
         viewModel.dataState.observe(viewLifecycleOwner, Observer {dataState ->
+            //handle loading and message
+            dataStateListener.onDataStateChanged(dataState)
 
             //handle data
             handleData(dataState)
 
-            //handle error
-            handleError(dataState)
 
-            //handle loading
-            handleLoading(dataState)
         })
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer {viewState->
@@ -56,13 +58,6 @@ class MainFragment : Fragment(){
         })
     }
 
-    private fun handleLoading(dataState: DataState<MainViewState>) {
-        TODO("Not yet implemented")
-    }
-
-    private fun handleError(dataState: DataState<MainViewState>) {
-        TODO("Not yet implemented")
-    }
 
     private fun handleData(dataState: DataState<MainViewState>) {
         dataState.data?.let {mainViewState ->
@@ -94,5 +89,14 @@ class MainFragment : Fragment(){
 
     private fun triggerGetBlogPost() {
         viewModel.setStateEvent(MainStateEvent.GetBlogPostsEvent())
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            dataStateListener = context as DataStateListener
+        }catch (e : ClassCastException){
+            println("DEBUGE : $context must implement DataStateListener!!")
+        }
     }
 }

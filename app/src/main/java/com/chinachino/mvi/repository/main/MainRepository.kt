@@ -1,7 +1,7 @@
 package com.chinachino.mvi.repository.main
 
 import androidx.lifecycle.LiveData
-import com.chinachino.mvi.UI.main.state.MainViewState
+import com.chinachino.mvi.ui.main.state.MainViewState
 import com.chinachino.mvi.api.RetrofitBuilder
 import com.chinachino.mvi.model.BlogPost
 import com.chinachino.mvi.model.User

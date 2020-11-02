@@ -1,10 +1,7 @@
 package com.chinachino.mvi.repository.main
 
-import android.provider.ContactsContract
-import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
-import com.chinachino.mvi.UI.main.state.MainViewState
 import com.chinachino.mvi.utils.*
 import com.chinachino.mvi.utils.Constants.TESTING_TIME_LIMIT
 import kotlinx.coroutines.CoroutineScope

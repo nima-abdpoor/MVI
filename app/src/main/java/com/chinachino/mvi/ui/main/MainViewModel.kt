@@ -1,12 +1,12 @@
-package com.chinachino.mvi.UI.main
+package com.chinachino.mvi.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import com.chinachino.mvi.UI.main.state.MainStateEvent
-import com.chinachino.mvi.UI.main.state.MainStateEvent.*
-import com.chinachino.mvi.UI.main.state.MainViewState
+import com.chinachino.mvi.ui.main.state.MainStateEvent
+import com.chinachino.mvi.ui.main.state.MainStateEvent.*
+import com.chinachino.mvi.ui.main.state.MainViewState
 import com.chinachino.mvi.model.BlogPost
 import com.chinachino.mvi.model.User
 import com.chinachino.mvi.repository.main.MainRepository
