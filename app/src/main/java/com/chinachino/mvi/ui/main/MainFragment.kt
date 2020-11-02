@@ -60,12 +60,14 @@ class MainFragment : Fragment(){
 
 
     private fun handleData(dataState: DataState<MainViewState>) {
-        dataState.data?.let {mainViewState ->
-            mainViewState.user?.let {
-                viewModel.setUserData(it)
-            }
-            mainViewState.blogPosts?.let {
-                viewModel.setBlogPostData(it)
+        dataState.data?.let {event ->
+            event.getContentIfNotHandled()?.let {mainViewState->
+                mainViewState.user?.let {
+                    viewModel.setUserData(it)
+                }
+                mainViewState.blogPosts?.let {
+                    viewModel.setBlogPostData(it)
+                }
             }
         }
     }

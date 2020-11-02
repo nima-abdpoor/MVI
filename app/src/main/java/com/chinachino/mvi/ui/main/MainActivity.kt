@@ -33,15 +33,16 @@ class MainActivity : AppCompatActivity(),DataStateListener {
         dataState?.let {
             showProgressBar(dataState.loading)
 
-            dataState.message?.let {message ->
-                println("DEBUGE :: $message")
-                showToastBar(message)
+            dataState.message?.let {event ->
+                event.getContentIfNotHandled()?.let {message ->
+                    showToast(message)
+                }
             }
         }
 
     }
 
-    private fun showToastBar(message: String) {
+    private fun showToast(message: String) {
         Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
     }
 
