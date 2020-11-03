@@ -8,8 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.chinachino.mvi.R
 import com.chinachino.mvi.model.BlogPost
+import com.chinachino.mvi.model.User
 import com.chinachino.mvi.ui.DataStateListener
 import com.chinachino.mvi.ui.main.state.MainStateEvent
 import com.chinachino.mvi.ui.main.state.MainViewState
@@ -72,8 +74,19 @@ class MainFragment : Fragment() , BlogListAdapter.Interaction{
             }
             viewState.user?.let {
                 println("debug :: User ---> $it")
+                setUserProperties(it)
             }
         })
+    }
+
+    private fun setUserProperties(user: User) {
+        username.text = user.username
+        email.text = user.email
+        view?.let {
+            Glide.with(it.context)
+                .load(user.image)
+                .into(image)
+        }
     }
 
 
