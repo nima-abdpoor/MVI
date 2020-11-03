@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -136,5 +137,6 @@ class MainFragment : Fragment() , BlogListAdapter.Interaction{
     override fun onItemSelected(position: Int, item: BlogPost) {
         Log.d(TAG, "onItemSelected: $position Clicked")
         Log.d(TAG, "onItemSelected: $item Clicked")
+        Toast.makeText(activity,item.body,Toast.LENGTH_LONG).show()
     }
 }
