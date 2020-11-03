@@ -12,7 +12,7 @@ interface APIService {
     fun getUser(@Path("userId") id: String)
             : LiveData<GenericApiResponse<User>>
 
-    @GET("placeholder/blogs/")
+    @GET("placeholder/blogs")
     fun getBlogPosts()
             : LiveData<GenericApiResponse<List<BlogPost>>>
 }

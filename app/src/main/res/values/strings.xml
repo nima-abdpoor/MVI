@@ -2,4 +2,6 @@
     <string name="app_name">MVI</string>
     <string name="get_user">Get User</string>
     <string name="get_blog">Get Blog</string>
+    <string name="the_title_of_a_blog">The Title of a Blog</string>
+    <string name="todo">TODO</string>
 </resources>

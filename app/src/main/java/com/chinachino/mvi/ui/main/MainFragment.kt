@@ -2,20 +2,27 @@ package com.chinachino.mvi.ui.main
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.chinachino.mvi.R
+import com.chinachino.mvi.model.BlogPost
 import com.chinachino.mvi.ui.DataStateListener
 import com.chinachino.mvi.ui.main.state.MainStateEvent
 import com.chinachino.mvi.ui.main.state.MainViewState
 import com.chinachino.mvi.utils.DataState
-import java.lang.ClassCastException
+import com.chinachino.mvi.utils.TopSpacingItemDecoration
+import kotlinx.android.synthetic.main.fragment_main.*
 
-class MainFragment : Fragment(){
+class MainFragment : Fragment() , BlogListAdapter.Interaction{
+    val TAG = "MainFragment"
+
     lateinit var viewModel: MainViewModel
     lateinit var dataStateListener: DataStateListener
+    lateinit var blogListAdapter: BlogListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +41,16 @@ class MainFragment : Fragment(){
         }?: throw Exception("Invalid Activity")
 
         subscribeObservers()
+        initRecyclerView()
+    }
+    private fun initRecyclerView(){
+        val topSpacingItemDecoration =  TopSpacingItemDecoration(30)
+        recycler_view.apply {
+            layoutManager = LinearLayoutManager(activity)
+            addItemDecoration(topSpacingItemDecoration)
+            blogListAdapter = BlogListAdapter(this@MainFragment)
+            adapter = blogListAdapter
+        }
     }
 
     private fun subscribeObservers() {
@@ -49,8 +66,9 @@ class MainFragment : Fragment(){
         })
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer {viewState->
-            viewState.blogPosts?.let {
-                println("debug :: BlogPost ---> $it")
+            viewState.blogPosts?.let {list->
+                println("debug :: BlogPost ---> $list")
+                blogListAdapter.submitList(list)
             }
             viewState.user?.let {
                 println("debug :: User ---> $it")
@@ -100,5 +118,10 @@ class MainFragment : Fragment(){
         }catch (e : ClassCastException){
             println("DEBUGE : $context must implement DataStateListener!!")
         }
+    }
+
+    override fun onItemSelected(position: Int, item: BlogPost) {
+        Log.d(TAG, "onItemSelected: $position Clicked")
+        Log.d(TAG, "onItemSelected: $item Clicked")
     }
 }
